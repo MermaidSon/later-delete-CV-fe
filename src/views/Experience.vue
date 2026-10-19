@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import ExperienceTimeline from '@/components/ExperienceTimeline.vue'
+
 
 interface ResumeItem {
   company: string
@@ -27,6 +29,10 @@ onMounted(async () => {
 </script>
 
 <template>
+      <main class="min-h-screen bg-zinc-950 text-zinc-100 font-sans">
+    <ExperienceTimeline />
+  </main>
+  
   <section class="py-16 border-b border-slate-800">
     <div class="max-w-4xl mx-auto px-4">
       <h3 class="font-mono text-2xl font-bold text-white mb-12 flex items-center gap-3">

@@ -1,67 +1,54 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-
-const technologies = ref<any[]>([])
-const loading = ref(true)
-
-onMounted(async () => {
-  try {
-    const res = await fetch('http://127.0.0.1:8000/api/technologies')
-    const json = await res.json()
-    
-    // Извлекаем массив из структуры { success: true, data: [...] }
-    const data = json?.data
-    if (Array.isArray(data)) {
-      technologies.value = data
-    } else {
-      technologies.value = []
-    }
-  } catch (error) {
-    console.error('Failed to load technologies:', error)
-  } finally {
-    loading.value = false
+const techCategories = [
+  {
+    title: 'Backend & Desktop',
+    description: 'Developing robust desktop and backend applications with a focus on performance.',
+    items: ['Go', 'C#', 'Delphi', 'PHP', 'Laravel'],
+    icon: '⚙️'
+  },
+  {
+    title: 'Databases',
+    description: 'Designing, administering, and optimizing relational databases for high loads.',
+    items: ['FireBird (IBExpert)', 'Red Database', 'PostgreSQL', 'MySQL/SQLite'],
+    icon: '🗄️'
+  },
+  {
+    title: 'DevOps & Tools',
+    description: 'Ensuring environment consistency, version control, and process management.',
+    items: ['Docker', 'Linux (Debian)', 'Git (GitLab)', 'YouTrack'],
+    icon: '🚀'
+  },
+  {
+    title: 'Modeling & Docs',
+    description: 'Visual modeling and notation design for clear stakeholder alignment.',
+    items: ['UML', 'BPMN', 'DMN', 'Camunda', 'Mermaid'],
+    icon: '📐'
   }
-})
-
-// Функция безопасно парсит JSON-строку или массив
-const parseItems = (items: any): string[] => {
-  if (Array.isArray(items)) return items
-  if (typeof items === 'string') {
-    try {
-      return JSON.parse(items)
-    } catch {
-      return items.split(',').map((s: string) => s.trim())
-    }
-  }
-  return []
-}
+]
 </script>
 
 <template>
-  <section class="py-16 border-b border-slate-800">
-    <div class="max-w-4xl mx-auto px-4">
-      <h3 class="font-mono text-2xl font-bold text-white mb-12 flex items-center gap-3">
-        <span class="text-blue-400">02.</span> Tech Stack & Expertise
-      </h3>
-
-      <div v-if="loading" class="text-center py-8 text-slate-400 font-mono">
-        Loading technologies...
-      </div>
-
-      <div v-else-if="technologies.length === 0" class="text-center py-8 text-slate-500">
-        No technologies data available
-      </div>
-
-      <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div v-for="(tech, index) in technologies" :key="tech.id || index" 
-             class="bg-slate-900/30 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors">
-          <h4 class="font-mono text-lg font-bold text-white mb-2">{{ tech.title }}</h4>
-          <p class="text-slate-400 text-sm mb-4 leading-relaxed">{{ tech.description }}</p>
+  <section class="py-24 px-6 bg-zinc-900/30 border-t border-zinc-800/50">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center tracking-tight">Technology Stack</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div 
+          v-for="(category, index) in techCategories" 
+          :key="index"
+          class="group relative p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 hover:border-indigo-500/40 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-1"
+        >
+          <div class="text-4xl mb-6 transform group-hover:scale-110 transition-transform duration-300">{{ category.icon }}</div>
+          <h3 class="text-xl font-bold text-white mb-3">{{ category.title }}</h3>
+          <p class="text-zinc-400 mb-6 leading-relaxed text-sm">{{ category.description }}</p>
           
           <div class="flex flex-wrap gap-2">
-            <span v-for="(item, i) in parseItems(tech.items)" :key="i" 
-                  class="font-mono text-xs md:text-sm px-3 py-1.5 bg-slate-800 text-emerald-400 rounded-md border border-slate-700 hover:border-emerald-500/50 hover:bg-slate-800/80 transition-all cursor-default">
-              {{ item }}
+            <span 
+              v-for="tech in category.items" 
+              :key="tech" 
+              class="px-3.5 py-1.5 rounded-lg bg-zinc-800/80 text-zinc-300 text-sm font-medium border border-zinc-700 group-hover:border-indigo-500/30 group-hover:text-indigo-300 transition-all duration-300"
+            >
+              {{ tech }}
             </span>
           </div>
         </div>
