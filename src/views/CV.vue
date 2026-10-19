@@ -3,7 +3,5 @@ import HeroSection from '@/components/HeroSection.vue'
 </script>
 
 <template>
-  <div>
-    <HeroSection />
-  </div>
+  <HeroSection />
 </template>
