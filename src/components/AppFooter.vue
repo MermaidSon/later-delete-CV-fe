@@ -11,9 +11,10 @@ const ownerData = computed(() => store.ownerData || '')
         <div class="footer-content">
             <p>&copy; {{ currentYear }} {{ ownerData?.name }}</p>
             <div class="footer-links">
-                <a v-for="contact in ownerData?.contacts" :key="contact.platform" :href="contact.link" target="_blank">
+                <a v-for="contact in ownerData?.contacts" :key="contact.platform" :href="contact.link" target="_blank" rel="noopener noreferrer">
                     {{ contact.text }}
                 </a>
+                <a href="https://github.com/MermaidSon" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
         </div>
     </footer>

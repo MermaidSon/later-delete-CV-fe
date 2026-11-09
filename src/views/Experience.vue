@@ -16,7 +16,7 @@ const loading = ref(true)
 
 onMounted(async () => {
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/resume')
+    const res = await fetch(`${import.meta.env.VITE_API_URL ?? 'http://2.27.194.49/api'}/resume`)
     const json = await res.json()
     // Реальная структура: json.data.resume — массив
     resumes.value = json?.data?.resume || json?.data || []
